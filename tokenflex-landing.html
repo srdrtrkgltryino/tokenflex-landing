@@ -662,32 +662,15 @@
       selectedproduct: selectedProduct
     };
 
-    // Hidden iframe trick - CORS bypass
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden_iframe';
-    iframe.style.display = 'none';
-    document.body.appendChild(iframe);
-
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = FLOW_URL;
-    form.target = 'hidden_iframe';
-    form.enctype = 'application/x-www-form-urlencoded';
-
-    // JSON'u tek field olarak gönder
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'data';
-    input.value = JSON.stringify(payload);
-    form.appendChild(input);
-
-    document.body.appendChild(form);
-    form.submit();
-
-    setTimeout(() => {
-      document.body.removeChild(form);
-      document.body.removeChild(iframe);
-    }, 2000);
+    try {
+      await fetch(FLOW_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.log('Gönderildi:', e);
+    }
 
     document.getElementById('formContent').style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
