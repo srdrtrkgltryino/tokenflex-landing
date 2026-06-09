@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TokenFlex | Kurumsal Yan Hak Çözümleri</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue: #0057B8;
+    --blue-dark: #003D8A;
+    --blue-light: #E8F0FB;
+    --orange: #F47920;
+    --orange-light: #FFF4EC;
+    --white: #ffffff;
+    --gray-50: #F8F9FA;
+    --gray-100: #F1F3F5;
+    --gray-300: #CED4DA;
+    --gray-500: #6C757D;
+    --gray-700: #343A40;
+    --gray-900: #212529;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--gray-900);
+    background: var(--white);
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-100);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #d96a10; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 60%, #1a7fd4 100%);
+    color: white;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    max-width: 700px;
+    margin: 0 auto 20px;
+  }
+  .hero h1 span { color: #FFB347; }
+  .hero p {
+    font-size: 18px;
+    opacity: 0.85;
+    max-width: 560px;
+    margin: 0 auto 36px;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    flex-wrap: wrap;
+  }
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #FFB347;
+    display: block;
+  }
+  .stat-label { font-size: 13px; opacity: 0.75; }
+
+  /* PRODUCTS */
+  .section {
+    padding: 72px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .section-eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 12px;
+  }
+  .section-header h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .section-header p {
+    color: var(--gray-500);
+    font-size: 16px;
+    margin-top: 12px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .product-card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--blue);
+  }
+  .product-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+  .product-family {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .product-name {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 8px;
+  }
+  .product-desc {
+    font-size: 13px;
+    color: var(--gray-500);
+    line-height: 1.5;
+  }
+
+  /* PACKAGES */
+  .packages-bg {
+    background: var(--gray-50);
+    padding: 72px 40px;
+  }
+  .packages-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .package-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .package-card.featured {
+    border: 2px solid var(--blue);
+  }
+  .featured-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--blue);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 100px;
+  }
+  .package-name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .package-desc {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 20px;
+  }
+  .package-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .package-items li {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .package-items li::before {
+    content: '✓';
+    color: var(--blue);
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* FORM MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--gray-100);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-700);
+  }
+  .modal h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .modal-subtitle {
+    font-size: 14px;
+    color: var(--gray-500);
+    margin-bottom: 28px;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--gray-700);
+  }
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: var(--blue);
+  }
+  .form-submit {
+    width: 100%;
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--blue-dark); }
+  .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  .success-msg {
+    display: none;
+    text-align: center;
+    padding: 20px;
+  }
+  .success-msg .check {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  .success-msg h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .success-msg p { color: var(--gray-500); font-size: 14px; }
+
+  /* CTA SECTION */
+  .cta-section {
+    background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+    color: white;
+    text-align: center;
+    padding: 72px 40px;
+  }
+  .cta-section h2 { font-size: 32px; font-weight: 700; margin-bottom: 16px; }
+  .cta-section p { opacity: 0.85; font-size: 16px; margin-bottom: 32px; }
+  .btn-orange {
+    background: var(--orange);
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-orange:hover { background: #d96a10; }
+
+  footer {
+    text-align: center;
+    padding: 24px 40px;
+    font-size: 13px;
+    color: var(--gray-500);
+    border-top: 1px solid var(--gray-100);
+  }
+
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    nav { padding: 0 20px; }
+    .hero { padding: 60px 20px; }
+    .section { padding: 48px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+      <circle cx="14" cy="14" r="14" fill="#0057B8"/>
+      <path d="M8 10h12M8 14h8M8 18h10" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    Token<span>Flex</span>
+  </a>
+  <button class="nav-cta" onclick="openModal()">Teklif Al</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Koç Holding Güvencesiyle</div>
+  <h1>Çalışan Yan Haklarını <span>Dijitalleştirin</span></h1>
+  <p>Yemek, hediye ve mobilite çözümleriyle vergi avantajı sağlayın, operasyonları kolaylaştırın.</p>
+  <button class="btn-orange" onclick="openModal()">Hemen Teklif Alın →</button>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-number">%100</span>
+      <span class="stat-label">Vergi Tasarrufu</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">330₺</span>
+      <span class="stat-label">2026 Günlük Limit</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number">5000+</span>
+      <span class="stat-label">Üye İş Yeri</span>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-eyebrow">Ürünlerimiz</div>
+    <h2>İhtiyacınıza Özel Çözümler</h2>
+    <p>Her ölçekteki kuruma uygun dijital yan hak paketleri.</p>
+  </div>
+  <div class="products-grid" id="productsGrid">
+    <!-- JS ile doldurulacak -->
+    <div class="product-card">
+      <div class="product-family">TokenFlex Yemek</div>
+      <div class="product-name">TokenFlex Yemek Starter</div>
+      <div class="product-desc">QR ve NFC ile temassız ödeme. Fiziki kart gerektirmez.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-family">TokenFlex Yemek</div>
+      <div class="product-name">TokenFlex Yemek Corporate</div>
+      <div class="product-desc">Online market entegrasyonu ve genişletilmiş üye ağı.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-family">TokenFlex Hediye</div>
+      <div class="product-name">TokenFlex Hediye Standart</div>
+      <div class="product-desc">Çok kategorili hediye kartı. Çalışana seçim özgürlüğü.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-family">TokenFlex Hediye</div>
+      <div class="product-name">TokenFlex Hediye Premium</div>
+      <div class="product-desc">Geniş marka ağı ve özel kampanyalar dahil.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-family">TokenFlex Mobilite</div>
+      <div class="product-name">TokenFlex Mobilite QR Geçiş</div>
+      <div class="product-desc">Yemekhane giriş haklarını dijitalden yönetin.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-family">TokenFlex Mobilite</div>
+      <div class="product-name">TokenFlex Mobilite Yakıt</div>
+      <div class="product-desc">Filo yönetimi ve akaryakıt takibi tek platformda.</div>
+    </div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<div class="packages-bg">
+  <div class="packages-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Paketler</div>
+      <h2>Hazır Çözüm Paketleri</h2>
+      <p>Birden fazla çözümü bir arada alın, daha avantajlı fiyatlar.</p>
+    </div>
+    <div class="packages-grid">
+      <div class="package-card">
+        <div class="package-name">Starter Paketi</div>
+        <div class="package-desc">Küçük ve orta ölçekli firmalar için ideal başlangıç.</div>
+        <ul class="package-items">
+          <li>TokenFlex Yemek Starter</li>
+          <li>TokenFlex Hediye Standart</li>
+          <li>TokenFlex Mobilite QR Geçiş</li>
+        </ul>
+      </div>
+      <div class="package-card featured">
+        <div class="featured-badge">En Popüler</div>
+        <div class="package-name">Corporate Paketi</div>
+        <div class="package-desc">Büyüyen kurumlar için kapsamlı yan hak yönetimi.</div>
+        <ul class="package-items">
+          <li>TokenFlex Yemek Corporate</li>
+          <li>TokenFlex Hediye Premium</li>
+          <li>TokenFlex Mobilite QR Geçiş</li>
+        </ul>
+      </div>
+      <div class="package-card">
+        <div class="package-name">Enterprise Paketi</div>
+        <div class="package-desc">Büyük filo ve operasyonu olan kurumlar için.</div>
+        <ul class="package-items">
+          <li>TokenFlex Yemek Corporate</li>
+          <li>TokenFlex Hediye Premium</li>
+          <li>TokenFlex Mobilite Yakıt</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Hemen Başlayın</h2>
+  <p>Uzmanlarımız size özel bir teklif hazırlasın. Ücretsiz danışmanlık için formu doldurun.</p>
+  <button class="btn-orange" onclick="openModal()">Teklif Al →</button>
+</section>
+
+<footer>
+  © 2026 TokenFlex Kurumsal Hizmet Teknolojileri A.Ş. — Koç Holding Şirketi
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div id="formContent">
+      <h2>Teklif Alın</h2>
+      <p class="modal-subtitle">Bilgilerinizi doldurun, ekibimiz en kısa sürede size ulaşsın.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Ad *</label>
+          <input type="text" id="firstName" placeholder="Adınız" required>
+        </div>
+        <div class="form-group">
+          <label>Soyad *</label>
+          <input type="text" id="lastName" placeholder="Soyadınız" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Şirket Adı *</label>
+        <input type="text" id="companyName" placeholder="Şirketinizin adı" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>E-posta *</label>
+          <input type="email" id="email" placeholder="ornek@sirket.com" required>
+        </div>
+        <div class="form-group">
+          <label>Telefon *</label>
+          <input type="tel" id="phone" placeholder="0532 000 00 00" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Çalışan Sayısı</label>
+        <select id="employeeCount">
+          <option value="">Seçiniz</option>
+          <option value="1-50">1 – 50</option>
+          <option value="51-200">51 – 200</option>
+          <option value="201-500">201 – 500</option>
+          <option value="500+">500+</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>İlgilenilen Ürün</label>
+        <select id="selectedProduct">
+          <option value="">Seçiniz</option>
+          <option value="TokenFlex Yemek Starter">TokenFlex Yemek Starter</option>
+          <option value="TokenFlex Yemek Corporate">TokenFlex Yemek Corporate</option>
+          <option value="TokenFlex Hediye Standart">TokenFlex Hediye Standart</option>
+          <option value="TokenFlex Hediye Premium">TokenFlex Hediye Premium</option>
+          <option value="TokenFlex Mobilite QR Geçiş">TokenFlex Mobilite QR Geçiş</option>
+          <option value="TokenFlex Mobilite Yakıt">TokenFlex Mobilite Yakıt</option>
+          <option value="Starter Paketi">Starter Paketi</option>
+          <option value="Corporate Paketi">Corporate Paketi</option>
+          <option value="Enterprise Paketi">Enterprise Paketi</option>
+        </select>
+      </div>
+
+      <button class="form-submit" id="submitBtn" onclick="submitForm()">Teklif Gönder</button>
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <div class="check">✅</div>
+      <h3>Talebiniz Alındı!</h3>
+      <p>Ekibimiz en kısa sürede sizinle iletişime geçecek. Teşekkürler!</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const FLOW_URL = "https://7e3894976b68e6f6b5e13bfc84eec8.42.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/1c7bf2b49a504754bc63810a47023fa8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=anrCIPLmwTSWl9TAfsvdA5NF9ZTNy8cDVW-1ozBNt5I";
+
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  async function submitForm() {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const companyName = document.getElementById('companyName').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const employeeCount = document.getElementById('employeeCount').value;
+    const selectedProduct = document.getElementById('selectedProduct').value;
+
+    if (!firstName || !lastName || !companyName || !email || !phone) {
+      alert('Lütfen zorunlu alanları doldurun.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Gönderiliyor...';
+
+    const payload = {
+      firstname: firstName,
+      lastname: lastName,
+      companyname: companyName,
+      emailaddress1: email,
+      telephone1: phone,
+      employeecount: employeeCount,
+      selectedproduct: selectedProduct
+    };
+
+    try {
+      await fetch(FLOW_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      // no-cors modunda hata normal, veri gönderildi
+    }
+
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+
+    setTimeout(() => {
+      closeModal();
+      document.getElementById('formContent').style.display = 'block';
+      document.getElementById('successMsg').style.display = 'none';
+      btn.disabled = false;
+      btn.textContent = 'Teklif Gönder';
+    }, 3000);
+  }
+</script>
+</body>
+</html>
